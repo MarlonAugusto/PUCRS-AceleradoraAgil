@@ -9,11 +9,35 @@ const tarefas = [{
     periodo: Periodos.Dia
 }, {
     id: 1,
-    nome: 'Dormir',
+    nome: 'Jantar',
+    periodo: Periodos.Noite
+}, {
+    id: 2,
+    nome: 'Escovar os Dentes',
+    periodo: Periodos.Dia
+}, {
+    id: 3,
+    nome: 'Lavar o Rosto',
+    periodo: Periodos.Dia
+}, {
+    id: 4,
+    nome: 'Escovar os Dentes',
+    periodo: Periodos.Noite
+}, {
+    id: 5,
+    nome: 'Ler livro',
+    periodo: Periodos.Noite
+}, {
+    id: 6,
+    nome: 'Arrumar a cama',
+    periodo: Periodos.Dia
+}, {
+    id: 7,
+    nome: 'Deitar',
     periodo: Periodos.Noite
 }];
 
-let proximoIdTarefa = 2;
+let proximoIdTarefa = 8;
 
 const listaDia = document.querySelector(`.lista-Dia`);
 const listaNoite = document.querySelector(`.lista-Noite`);
@@ -28,7 +52,7 @@ render();
 function render() {
     tarefas.forEach(tarefa => {
         const tarefaListItem = createTarefaListItem(tarefa);
-    
+
         if (tarefa.periodo == Periodos.Dia) {
             listaDia.appendChild(tarefaListItem);
         } else {
@@ -53,6 +77,7 @@ function criarTarefa() {
 
     if (!nomeTarefa) {
         alert("Não pode adicionar tarefas vazias.")
+        return;
     }
 
     if (!periodoSelecionado) {
@@ -70,10 +95,6 @@ function criarTarefa() {
     tarefas.push(tarefa);
 
     rerender();
-
-    // const tarefaListItem = createTarefaListItem(tarefa);
-
-    // document.querySelector(`.lista-${tarefa.periodo}`).appendChild(tarefaListItem);
 
     input.value = "";
 }
@@ -102,12 +123,13 @@ function createTarefaListItem(tarefa) {
     return li;
 }
 
-function removerTarefa(event) { 
+function removerTarefa(event) {
     const button = event.target;
-
     const tarefa = tarefas.find(t => t.id == button.dataset.tarefaId);
 
-    remove(tarefa, tarefas);
+    if (confirm("Deseja mesmo apagar a tarefa?")) {
+        remove(tarefa, tarefas);
+    } 
 
     rerender();
 }
@@ -115,4 +137,8 @@ function removerTarefa(event) {
 function remove(element, arr) {
     const elementIdx = arr.findIndex(x => x == element);
     arr = arr.splice(elementIdx, 1);
+}
+
+function print(element, msg) {
+    console.log(`${msg}: ${element}`);
 }
